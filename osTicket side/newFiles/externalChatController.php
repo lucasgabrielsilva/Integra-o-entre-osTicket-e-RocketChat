@@ -13,12 +13,6 @@ include_once(INCLUDE_DIR.'class.dispatcher.php');
 
 class ExternalChatController {
 
-    function teste(){
-	$a = new FileUploadField;
-	echo "foi";
-	}
-
-
     function getTicketStatus(){
         $sql = "select dbticketstatus.id, dbticketstatus.name 
             from ost_ticket_status as dbticketstatus;";
@@ -467,7 +461,6 @@ class ExternalChatController {
             bot_auth_token = '".$params['botAuthToken']."',
             bot_password = '".base64_encode($params['botPassword'])."'
             WHERE isStaff = ".$params['isStaff'].";";
-		echo $sql;
         try{
             $res = db_query($sql);
             Http::response(200, 'Table updated!');
@@ -500,9 +493,6 @@ class ExternalChatController {
             $msg = "";
             foreach($files as $f){
                 $msg .= $f['name'].": ".$f['url']."\n";
-		$teste = fopen('/home/cogeti/teste/dois.php', 'a+');
-		fwrite($teste, $msg);
-		fclose($teste);
 	    }
             return $msg;
         }
