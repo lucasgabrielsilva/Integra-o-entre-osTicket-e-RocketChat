@@ -47,8 +47,7 @@ class ExternalChatController {
 	return $files;
     }
 
-     function sqlQueryForTicketData($ticketnumbr){
-        $ticketnumber = 360274;
+     function sqlQueryForTicketData($ticketnumber){
 	$num = 5;
         $sqlDatas = "select number as numero, subject as titulo, dbticket.created as criado_em, lastresponse as ultima_resposta, lastmessage as ultima_messagem, name as status
             from ost_ticket as dbticket, ost_ticket__cdata as dbticketcdata, ost_thread as dbthread, ost_ticket_status as dbstatus
@@ -344,7 +343,7 @@ class ExternalChatController {
             PRIMARY KEY (id));";
         try{
             $res = db_query($sql);
-            Http::response(201, var_export($res, True));
+            Http::response(201, "Table created");
         } catch(Exception $ex){
             Http::response(500, var_export($ex, True));
         }
@@ -361,7 +360,7 @@ class ExternalChatController {
             PRIMARY KEY (id));";
         try{
             $res = db_query($sql);
-            Http::response(201, var_export($res, True));
+            Http::response(201, "Table created");
         } catch(Exception $ex){
             Http::response(500, var_export($ex, True));
         }
@@ -380,7 +379,7 @@ class ExternalChatController {
                 '".$params['groupId']."');";
             try{
                 $res = db_query($sql);
-                Http::response(201, var_export($res, True));
+                Http::response(201, "Data inserted");
             } catch(Exception $ex){
                 Http::response(500, var_export($ex, True));
             }
@@ -403,7 +402,7 @@ class ExternalChatController {
                 ".$params['isStaff'].");";
             try{
                 $res = db_query($sql);
-                Http::response(201, var_export($res, True));
+                Http::response(201, "Data inserted");
             } catch(Exception $ex){
                 Http::response(500, var_export($ex, True));
             }

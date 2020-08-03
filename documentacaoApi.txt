@@ -1,0 +1,168 @@
+parâmetros requisição:
+    get -> url params
+    post -> form-data
+    function createTicket -> json  
+ 
+parâmetros das funções:
+    requesteremail: email do de quem fez a requisição
+    clientemail: e-mail sobre quem a api atuará
+    ticketnumber: número do chamado
+    message: mensagem a ser adicionada ao chamado
+    reply: resposta a ser adicionada ao chamado
+    note: nota interna a ser adicionada ao chamado
+    idstatus: id do próximo status do chamado
+    ticket: objeto ticket
+    type: string para identificar que tipo de ação ocorreu, mensagem, resposta, criação, etc
+    exta: dados não acessíveis na classe da api, são enviados pelas classes pai
+    roomId: id do room no rocketchat
+ 
+funções:
+ 
+    function getTicketStatus()->
+        descrição: função que mostra todos os status possíveis para os chamados
+        método: GET
+        parâmetros: nenhum
+        retorno: json com id e nome dos status possíveis dos chamado
+ 
+    function getFilesUrls($ticketnumber)->
+        descrição: função para pegar todos os nomes e urls dos arquivos do chamado
+        método: uso interno
+        parâmetros: número do chamado
+        returno: array com nome e url para baixar os arquivos anexados no chamado
+ 
+    function sqlQueryForTicketData($ticketnumber)->
+        descrição: executa os query sql para pegar todos os dados do chamado
+        método: uso interno
+        parâmetros: número do chamado
+        retorno: array com dados, mensagens, colaboradores, tarefas e notas do chamado
+ 
+    function uploadFiles()->
+        descrição: faz o upload de anexos do chamado para o bd
+        método: uso interno
+        parâmetro: nenhum
+        retorno: nome e url dos arquivos que foram salvos no banco de dados
+ 
+    function createTicket($path)->
+        descrição: função para criação de um novo chamado
+        método: POST
+        parâmetro: json com os mesmos campos da documentação oficial
+        retorno: código do chamado criado
+ 
+    function getTicketsOpenByUser($params)->
+        descrição: pega todos os chamados de um determinado usuário
+        método: GET
+        parâmetros: requesteremail, clientemail
+        retorno: json com os dados de todos os chamados do usuário
+ 
+    function getAllTicketsOpen($params)->
+        descrição: pega todos os chamados abertos, requester precisa ser adm
+        método: GET
+        parâmetros: requesteremail
+        retorno: json com todos os dados de todos os chamados abertos
+ 
+    function getTicketData($params)->
+        descrição: pega um chamado específico
+        método: GET
+        parâmetros: requesteremail, ticketnumber
+        retorno: json com os dados de um chamado
+ 
+    function addCollaboratorToTicket($params)->
+        descrição: função para adicionar um novo colaborador ao chamado, requester precisa ser adm
+        método: POST
+        parâmetros: requesteremail, clientemail, ticketnumber
+        retorno: mensagem de sucesso ou falha
+ 
+    function messageToTicket($params)->
+        descrição: função para adicionar uma nova mensagem ao chamado, requester precisa ser usuário
+        método: POST
+        parâmetros: requesteremail, ticketnumber, message
+        retorno: mensagem de sucesso ou falha
+ 
+    function replyToTicket($params)->
+        descrição: função para adicionar uma nova resposta ao chamado, requester precisa ser adm
+        método: POST
+        parâmetros: requesteremail, ticketnumber, reply
+        retorno: mensagem de retorno ou falha
+ 
+    function addNoteToTicket($params)->
+        descrição: função para adicionar uma nova nota interna ao chamado, requester precisa ser adm
+        método: POST
+        parâmetros: requesteremail, ticketnumber, note
+        retorno: mensagem de retorno ou falha
+ 
+    function changeTicketStatus($params)->
+        descrição: altera o status do chamado, requester precisa ser adm
+        método: POST
+        parâmetros: requesteremail, ticketnumber, idstatus
+        retorno: mensagem de retorno ou falha
+ 
+    function createTableStaffGroup()->
+        descrição: cria tabela que armazena dados do grupo de adms no rocketchat
+        método: POST
+        parâmetros: nenhum
+        returno: mensagem de sucesso ou falha
+ 
+    function createTableBots()->
+        descrição: cria tabela que armazena dados dos bots do rocketchat
+        método: POST
+        parâmetros: nenhum
+        returno: mensagem de sucesso ou falha
+ 
+    function insertDataTableStaffGroup($params)->
+        descrição: insere dados na tabela
+        método: POST
+        parâmetros: grouPName, groupId
+        returno: mensagem de sucesso ou falha
+ 
+    function insertDataTableBots($params)->
+        descrição: insere dados na tabela
+        método: POST
+        parâmetros: botName, botId, botAuthToken, botPassword, isStaff
+        returno: mensagem de sucesso ou falha
+ 
+    function getDataTableStaffGroup()->
+        descrição: pega dos dados da tabela
+        método: POST
+        returno: dados da tabela
+ 
+    function getDataTableBots($isStaff)->
+        descrição: pega os dados da tabela
+        método: POST
+        returno: dados da tabela
+ 
+    function editTableStaffGroup($params)->
+        descrição: editar os dados da tabela
+        método: POST
+        returno: mensagem de sucesso ou falha
+ 
+    function editTableBots($params)->
+        descrição: editar os dados da tabela
+        método: POST
+        returno: mensagem de sucesso ou falha
+ 
+    function makeRequestChat($params)->
+        descrição: faz a requisição para a api do rocketchat
+        método: uso interno
+        returno: mensagem da api do rocketchat
+ 
+    function getAttachmentsData($id)->
+        descrição: pega nome e url se um arquivo foi anexado em uma mensagem, resposta ou nota interna
+        método: uso interno
+        parâmetros: id da threadEntry
+        retorno: string com nome e url dos arquivos do chamado
+ 
+    function parseMessageForChat($msg)->
+        descrição: retirar tags html da mensagem
+        método: uso interno
+        retorno: mensagem do chamado sem tags html
+ 
+    function prepareMessageForChat($ticket, $type, $id, $extra=False)->
+        descrição: prepara a string com a mensagem automática que será enviada ao chat e seta os parâmetros para
+        que todos recebam a notificação no chat
+        método: uso interno
+        retorno: nenhum
+ 
+    function sendMessageForChat($params, $roomId, $msg)->
+        descrição: envia as mensagens automáticas no chat
+        método: uso interno
+        retorno: nenhum
